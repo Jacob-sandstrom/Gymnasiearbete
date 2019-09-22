@@ -1,15 +1,28 @@
+require 'gosu'
 require_relative 'gameobject.rb'
+require_relative 'cameraman.rb'
+require_relative 'camera.rb'
 
 
 
 
-class Editor
+class Editor < Gosu::Window
 
     def initialize
+      width = 1920
+      height = 1080
+      super width, height, fullscreen:true
         
+
+      @cameraman = Cameraman.new(self)
+      @camera = Camera.new(self, @cameraman)
     end
 
+
     def update
+      @cameraman.update
+      @camera.update(@cameraman)
+      
 
     end
 
@@ -26,3 +39,6 @@ class Editor
     end
 
 end
+
+
+Editor.new.show
