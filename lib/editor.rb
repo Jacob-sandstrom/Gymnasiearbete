@@ -6,6 +6,8 @@ require_relative 'camera.rb'
 require_relative 'map_drawer.rb'
 require_relative 'map_writer.rb'
 require_relative 'input_handler.rb'
+require_relative 'tile_selector.rb'
+require_relative 'data_reader.rb'
 
 
 
@@ -18,12 +20,17 @@ class Editor < Gosu::Window
       height = 1080
       super width, height, fullscreen:true
         
+      tilesize = 32
 
       @camera = Camera.new(self)
 
       @map = YAML.load(File.read("../maps/tilemaps/map.yaml")) 
-      @map_writer = Map_writer.new(self, 32, @camera, @map)
-      @map_drawer = Map_drawer.new(self, 32)
+      @map_writer = Map_writer.new(self, tilesize, @camera, @map)
+      @map_drawer = Map_drawer.new(self, tilesize)
+
+      @tile_selector = Tile_selector.new(self, tilesize)
+
+      
     end
 
     def needs_cursor?
@@ -32,15 +39,18 @@ class Editor < Gosu::Window
 
 
     def update
+        @tile_selector.update
         @camera.update
-        @map_writer.update(@camera, @map)
+        @map_drawer.update(@tile_selector.open)
+        @map_writer.update(@camera, @map, @tile_selector.selected_tile, @tile_selector.open)
         
-        Input_handler.handle_inputs(self, @camera, @map_writer)
+        Input_handler.handle_inputs(self, @camera, @map_writer, @tile_selector)
     end
 
     def draw
 
         @map_drawer.draw(@camera, @map)
+        @tile_selector.draw()
     end
 
     def button_down(id)

@@ -8,6 +8,7 @@ class Data_reader
         db = connect
         data = access_data(db)
 
+        return data
     end
 
     def self.connect
@@ -15,10 +16,7 @@ class Data_reader
     end
 
     def self.access_data(db)
-        
-        data = db.execute('SeLecT * FrOm tiles')
-        return data
-
+        return db.execute('SeLecT * FrOm tiles')
     end
 
 

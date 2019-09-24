@@ -7,10 +7,10 @@ class Map_generator
 
         map = []
 
-        tiles_wide.times do 
+        tiles_high.times do
             column = []
-            tiles_high.times do
-                column << "_"
+            tiles_wide.times do 
+            column << "_"
 
             end
             map << column
@@ -25,6 +25,5 @@ class Map_generator
 end
 
 
-map = Map_generator.generate_map(30,30)
+map = Map_generator.generate_map(240,135)
 
-p map
