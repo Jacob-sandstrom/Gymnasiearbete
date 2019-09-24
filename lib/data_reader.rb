@@ -15,7 +15,9 @@ class Data_reader
     end
 
     def self.access_data(db)
-        data = []
+        
+        data = db.execute('SeLecT * FrOm tiles')
+        return data
 
     end
 
@@ -23,3 +25,4 @@ class Data_reader
     
 
 end
+

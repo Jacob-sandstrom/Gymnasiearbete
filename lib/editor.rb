@@ -1,7 +1,12 @@
 require 'gosu'
+require 'yaml'
+
 require_relative 'gameobject.rb'
-require_relative 'cameraman.rb'
 require_relative 'camera.rb'
+require_relative 'map_drawer.rb'
+require_relative 'map_writer.rb'
+require_relative 'input_handler.rb'
+
 
 
 
@@ -14,20 +19,28 @@ class Editor < Gosu::Window
       super width, height, fullscreen:true
         
 
-      @cameraman = Cameraman.new(self)
-      @camera = Camera.new(self, @cameraman)
+      @camera = Camera.new(self)
+
+      @map = YAML.load(File.read("../maps/tilemaps/map.yaml")) 
+      @map_writer = Map_writer.new(self, 32, @camera, @map)
+      @map_drawer = Map_drawer.new(self, 32)
+    end
+
+    def needs_cursor?
+        true
     end
 
 
     def update
-      @cameraman.update
-      @camera.update(@cameraman)
-      
-
+        @camera.update
+        @map_writer.update(@camera, @map)
+        
+        Input_handler.handle_inputs(self, @camera, @map_writer)
     end
 
     def draw
 
+        @map_drawer.draw(@camera, @map)
     end
 
     def button_down(id)

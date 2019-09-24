@@ -4,7 +4,7 @@
 
 class Gameobject
 
-    def initialize(window, camera, x, y)
+    def initialize(window, x, y)
         @window = window
         @x = x
         @y = y
@@ -26,8 +26,8 @@ end
 
 class Dynamic_gameobject < Gameobject
 
-    def initialize(window, camera, x, y)
-        super(window, camera, x, y)
+    def initialize(window, x, y)
+        super(window, x, y)
 
 
         @x_move = 0
