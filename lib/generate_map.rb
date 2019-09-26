@@ -24,6 +24,10 @@ class Map_generator
 
 end
 
+puts "Type CONFIRM to generate new map"
+input = gets.chomp
 
-map = Map_generator.generate_map(240,135)
+if input == "confirm"
+    map = Map_generator.generate_map(240,135)
+end
 

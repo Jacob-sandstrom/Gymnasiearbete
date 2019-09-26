@@ -13,7 +13,7 @@ class Map_drawer
         
         @floortiles = {}
         data.each_with_index do |dat, i|
-            @floortiles[dat[0]] = Gosu::Image.new("../img/tiles/#{dat[1]}.png")
+            @floortiles[dat[0]] = Gosu::Image.new("../img/tiles/#{dat[1]}")
         end
 
     end

@@ -35,4 +35,7 @@ class Tile_selector_map_gen
 
 end
 
-Tile_selector_map_gen.generate_map
+if __FILE__==$0
+    Tile_selector_map_gen.generate_map
+
+end
