@@ -2,9 +2,9 @@ require_relative 'data_reader.rb'
 
 class Tile_selector_map_gen
 
-    def self.generate_map(tiles_wide = 60, tiles_high = 34)
+    def self.generate_map(tiles_wide = 60, tiles_high = 34, name = "tiles")
 
-        data = Data_reader.read
+        data = Data_reader.read(name)
 
         map = []
 
@@ -27,7 +27,7 @@ class Tile_selector_map_gen
 
         end
 
-        File.write("../selectormaps/tiles.yaml", map)
+        File.write("../selectormaps/#{name}.yaml", map)
         
         return map 
     end

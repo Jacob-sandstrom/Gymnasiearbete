@@ -28,7 +28,8 @@ class Editor < Gosu::Window
         @map_writer = Map_writer.new(self, @tilesize, @camera, @map)
         @map_drawer = Map_drawer.new(self, @tilesize)
 
-        @tile_selector = Tile_selector.new(self, @tilesize)
+        @tile_selector = Tile_selector.new(self, @tilesize, "tiles", 2)
+        @object_selector = Tile_selector.new(self, @tilesize, "objects", 1)
 
         @gameobject = Gameobject.new(self, 200,200)
     end
@@ -42,18 +43,26 @@ class Editor < Gosu::Window
         @gameobject.update
         
         @tile_selector.update
+        @object_selector.update
         @camera.update
-        @map_drawer.update(@tile_selector.open)
-        @map_writer.update(@camera, @map, @tile_selector.selected_tile, @tile_selector.open)
+        @map_drawer.update()
+        @map_writer.update(@camera, @map, @tile_selector.selected_tile)
         
-        Input_handler.handle_inputs(self, @camera, @map_writer, @tile_selector)
+
+        
+        Input_handler.handle_inputs(self, @camera, @map_writer, @tile_selector, @object_selector)
     end
     
     def draw
         @gameobject.draw(@camera)
-
-        @map_drawer.draw(@camera, @map)
-        @tile_selector.draw()
+        
+        if @tile_selector.open
+            @tile_selector.draw()
+        elsif @object_selector.open
+            @object_selector.draw()
+        else
+            @map_drawer.draw(@camera, @map)
+        end
     end
 
     def button_down(id)

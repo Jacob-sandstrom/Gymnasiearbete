@@ -4,17 +4,18 @@
 class Tile_selector
     attr_accessor :open, :selected_tile
 
-    def initialize(window, tilesize)
+    def initialize(window, tilesize = 32, type = "tiles", scale = 1)
         @window = window
+        @scale = scale
         @tilesize = tilesize
         @open = false
         @selected_tile = "_"
 
-        @map = YAML.load(File.read("../selectormaps/tiles.yaml")) 
+        @map = YAML.load(File.read("../selectormaps/#{type}.yaml")) 
         @data = Data_reader.read
 
-        @tile_drawer = Map_drawer.new(@window, @tilesize)
-        @tile_index_locator = Map_writer.new(@window, @tilesize, nil, @map)
+        @tile_drawer = Map_drawer.new(@window, @tilesize, type, @scale)
+        @tile_index_locator = Map_writer.new(@window, @tilesize, nil, @map, @scale)
     end
 
     def open_tile_selector
@@ -37,13 +38,7 @@ class Tile_selector
     end
 
     def draw
-
-        if @open
-
-            @tile_drawer.draw(nil, @map)
-
-        end
-
+        @tile_drawer.draw(nil, @map)
     end
 
 end

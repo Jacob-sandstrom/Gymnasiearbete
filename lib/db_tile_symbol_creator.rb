@@ -11,7 +11,7 @@ class Db_tiles
     end
 
     def self.connect
-        SQLite3::Database.new '../db/Tile_symbols.db'
+        SQLite3::Database.new '../db/symbols.db'
     end
 
     def self.get_existing_tiles(db)
@@ -26,6 +26,7 @@ class Db_tiles
     
         tile_names.each_with_index do |_, i|
             tile_names[i].slice!("../img/tiles/")
+            tile_names[i].slice!(".png")
         end
         
 
@@ -51,7 +52,7 @@ class Db_tiles
     end
 
     def self.generate_map
-        Tile_selector_map_gen.generate_map
+        Tile_selector_map_gen.generate_map(30, 17)
     end
 
 

@@ -4,9 +4,9 @@
 
 class Input_handler
 
-    def self.handle_inputs(window, camera, map_writer, tile_selector)
+    def self.handle_inputs(window, camera, map_writer, tile_selector, object_selector)
 
-        if !tile_selector.open  # Tile selector not open controls
+        if !tile_selector.open || !object_selector.open    # Tile/object selector not open controls
             #   move camera
             if Gosu.button_down? Gosu::KB_W 
                 camera.move_up
@@ -44,9 +44,15 @@ class Input_handler
         #   open and close tile_selector
         if Gosu.button_down? Gosu::KB_T 
             tile_selector.open_tile_selector
+            object_selector.close_tile_selector
+        end
+        if Gosu.button_down? Gosu::KB_R
+            object_selector.open_tile_selector
+            tile_selector.close_tile_selector
         end
         if Gosu.button_down? Gosu::KB_Y
             tile_selector.close_tile_selector
+            object_selector.close_tile_selector
         end
 
     end

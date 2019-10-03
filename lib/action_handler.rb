@@ -5,7 +5,7 @@ require_relative 'animation_player.rb'
 class Action_handler
     attr_accessor :current_action, :allow_move, :x_move, :y_move
 
-    def initialize(file = "../object data/player/player_action_data.yaml")
+    def initialize(file = "../object data/player.yaml")
         actions = YAML.load(File.read(file))
 
         @action_players = {}

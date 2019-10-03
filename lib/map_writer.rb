@@ -2,14 +2,15 @@
 
 class Map_writer
 
-    def initialize(window, tilesize, camera, map)
+    def initialize(window, tilesize, camera, map, scale = 1)
         @window = window
         @tilesize = tilesize
         @camera = camera
         @map = map
+        @scale = scale
 
-        @map_width = @map[0].length * @tilesize
-        @map_height = @map.length * @tilesize
+        @map_width = @map[0].length * @tilesize * @scale
+        @map_height = @map.length * @tilesize * @scale
 
         @selected_tile = "_"
     end
@@ -30,28 +31,28 @@ class Map_writer
         if @camera != nil
             tile_index_x = 0
             mouse_location_x = @window.mouse_x + @camera.x
-            while mouse_location_x > @tilesize
+            while mouse_location_x > @tilesize * @scale
                 tile_index_x += 1
-                mouse_location_x -= @tilesize
+                mouse_location_x -= @tilesize * @scale
             end
             tile_index_y = 0
             mouse_location_y = @window.mouse_y + @camera.y
-            while mouse_location_y > @tilesize
+            while mouse_location_y > @tilesize * @scale
                 tile_index_y += 1
-                mouse_location_y -= @tilesize
+                mouse_location_y -= @tilesize * @scale
             end
         else
             tile_index_x = 0
             mouse_location_x = @window.mouse_x
-            while mouse_location_x > @tilesize
+            while mouse_location_x > @tilesize * @scale
                 tile_index_x += 1
-                mouse_location_x -= @tilesize
+                mouse_location_x -= @tilesize * @scale
             end
             tile_index_y = 0
             mouse_location_y = @window.mouse_y
-            while mouse_location_y > @tilesize
+            while mouse_location_y > @tilesize * @scale
                 tile_index_y += 1
-                mouse_location_y -= @tilesize
+                mouse_location_y -= @tilesize * @scale
             end
         end
 
@@ -73,11 +74,10 @@ class Map_writer
     end
 
 
-    def update(camera, map, selected_tile, tile_selector_open)
+    def update(camera, map, selected_tile)
         @camera = camera
         @map = map
         @selected_tile = selected_tile
-        @tile_selector_open = tile_selector_open
 
     end
 
