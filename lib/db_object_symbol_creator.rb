@@ -30,9 +30,9 @@ class Db_objects
         end
         
 
-        p object_names
+        # p object_names
         existing_objects.each do |existing|
-            p existing[0]
+            # p existing[0]
             if object_names.include? existing[0]
                 object_names.delete(existing[0])
             end

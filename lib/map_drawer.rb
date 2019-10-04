@@ -9,12 +9,13 @@ class Map_drawer
         @window = window
         @tilesize = tilesize
         @scale = scale
+        @filetype = ".png"
 
         data = Data_reader.read(type)
         
         @floortiles = {}
         data.each_with_index do |dat, i|
-            @floortiles[dat[0]] = Gosu::Image.new("../img/#{type}/#{dat[1]}.png")
+            @floortiles[dat[0]] = Gosu::Image.new("../img/#{type}/#{dat[1]}#{@filetype}")
         end
 
     end

@@ -1,6 +1,4 @@
 
-
-
 class Tile_selector
     attr_accessor :open, :selected_tile
 

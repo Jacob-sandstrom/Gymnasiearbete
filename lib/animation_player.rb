@@ -12,7 +12,7 @@ class Animation_player
                 spritesheet = @spritesheet_path + meta_data["spritesheet"]
                 img_width = @meta_data["size"][0]
                 img_height = @meta_data["size"][1]
-                p spritesheet
+                # p spritesheet
                 @animation_frames = Gosu::Image.load_tiles(spritesheet, img_width, img_height, tileable: true)
             rescue 
                 puts "Error: Unable to load animation #{@meta_data["name"]}"

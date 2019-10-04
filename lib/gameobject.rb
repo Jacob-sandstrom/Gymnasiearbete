@@ -4,7 +4,7 @@ require_relative 'action_handler'
 
 class Gameobject
 
-    def initialize(window, x, y)
+    def initialize(window, x, y, data_name = "player")
         @window = window
         @x = x
         @y = y
@@ -12,7 +12,7 @@ class Gameobject
         @x_move = 0
         @y_move = 0
 
-        @action_handler = Action_handler.new
+        @action_handler = Action_handler.new("../object data/#{data_name}.yaml")
 
     end
 

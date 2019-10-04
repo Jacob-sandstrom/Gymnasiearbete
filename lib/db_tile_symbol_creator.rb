@@ -30,9 +30,9 @@ class Db_tiles
         end
         
 
-        p tile_names
+        # p tile_names
         existing_tiles.each do |existing|
-            p existing[0]
+            # p existing[0]
             if tile_names.include? existing[0]
                 tile_names.delete(existing[0])
             end
