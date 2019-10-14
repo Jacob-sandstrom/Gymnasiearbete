@@ -1,5 +1,6 @@
 require 'gosu'
 require 'yaml'
+require 'wisper'
 
 d = Dir.glob("*.rb")
 d.each do |dir|
@@ -33,17 +34,21 @@ class Editor < Gosu::Window
         
         @currently_editing = "tiles"
         
-        
+        Input_handler.subscribe(self)
     end
     
     def needs_cursor?
         true
     end
+
+    def save_map
+        File.write("../maps/tilemaps/map.yaml", @tile_map)
+        File.write("../maps/objectmaps/map.yaml", @object_map)
+    end
     
     def reload_objects
         @objects = @object_generator.generate(@object_map)
     end
-
 
     def update_writer
         case @currently_editing
@@ -56,8 +61,9 @@ class Editor < Gosu::Window
 
     def update
         @objects.each {|obj| obj.update}
-        p @object_map[0]
-
+        # p @object_map[0]
+        # p @currently_editing
+        # p @object_selector.selected_tile
         
         @tile_selector.update
         @object_selector.update
@@ -68,17 +74,18 @@ class Editor < Gosu::Window
         
         
         
-        Input_handler.handle_inputs(self, @camera, @map_writer, @tile_selector, @object_selector)
+        # Input_handler.handle_inputs(self, @camera, @map_writer, @tile_selector, @object_selector)
+        inputs
     end
     
     def draw
-        @objects.each {|obj| obj.draw(@camera)}
         
         if @tile_selector.open
             @tile_selector.draw()
         elsif @object_selector.open
             @object_selector.draw()
         else
+            @objects.each {|obj| obj.draw(@camera)}
             @map_drawer.draw(@camera, @tile_map)
         end
     end
@@ -89,6 +96,113 @@ class Editor < Gosu::Window
         else
           super
         end
+        if id == Gosu::MS_LEFT
+            if @currently_editing == "objects"  && (!@tile_selector.open && !@object_selector.open  )
+                
+                @map_writer.add_tile_to_map
+                tile_x, tile_y = @map_writer.get_tile_index 
+                symbol = @object_map[tile_y][tile_x]
+                data = Data_reader.read("objects")
+
+                #   make array a dictionary
+                @object_symbol_and_names = {}
+                data.each_with_index do |dat, i|
+                    @object_symbol_and_names[dat[0]] = dat[1]
+                end
+                if symbol != "_"
+                    obj = @object_symbol_and_names[symbol]
+                    success = false
+                    begin
+                        @objects << Object.const_get(obj).new(@window, tile_x*@tilesize, tile_y*@tilesize)
+                        success = true
+                    rescue
+                        @objects << Gameobject.new(@window, tile_x*@tilesize, tile_y*@tilesize, obj)
+                        success = true
+                    ensure
+                        if !success
+                            puts "Error: Unable to create object #{obj}"
+                        end
+                    end
+                end
+
+               
+            end
+        end
+
+    end
+
+    def inputs 
+
+        if !@tile_selector.open && !@object_selector.open     # Tile/object selector not open controls
+            #   move @camera
+            if Gosu.button_down? Gosu::KB_W 
+                @camera.move_up
+            end
+            if Gosu.button_down? Gosu::KB_S and !Gosu.button_down? Gosu::KB_LEFT_CONTROL
+                @camera.move_down
+            end
+            if Gosu.button_down? Gosu::KB_A
+                @camera.move_left
+            end
+            if Gosu.button_down? Gosu::KB_D
+                @camera.move_right
+            end
+
+            if self.currently_editing == "tiles"
+                #   edit tilemap
+                if Gosu.button_down? Gosu::MS_LEFT
+                    @map_writer.add_tile_to_map
+                end
+                if Gosu.button_down? Gosu::MS_RIGHT
+                    @map_writer.remove_tile_from_map
+                end
+            elsif self.currently_editing = "objects"                
+
+                if Gosu.button_down? Gosu::MS_RIGHT
+                    @map_writer.remove_tile_from_map
+                    # self.hello
+                    # broadcast(:hello)
+                end
+            end
+
+
+        elsif @tile_selector.open                            # Tile selector open controls
+            #   select tile
+            if Gosu.button_down? Gosu::MS_LEFT
+                @tile_selector.select_tile
+            end
+            
+        elsif @object_selector.open                          # object selector controls
+            
+            if Gosu.button_down? Gosu::MS_LEFT
+                @object_selector.select_tile
+            end
+
+
+        end
+
+        #   save
+        if Gosu.button_down? Gosu::KB_LEFT_CONTROL and Gosu.button_down? Gosu::KB_S
+            self.save_map
+        end
+
+        
+        #   open and close @tile_selector
+        if Gosu.button_down? Gosu::KB_T 
+            @tile_selector.open_tile_selector
+            @object_selector.close_tile_selector
+            self.currently_editing = "tiles"
+        end
+        if Gosu.button_down? Gosu::KB_R
+            @object_selector.open_tile_selector
+            @tile_selector.close_tile_selector
+            self.currently_editing = "objects"
+        end
+        if Gosu.button_down? Gosu::KB_Y
+            @tile_selector.close_tile_selector
+            @object_selector.close_tile_selector
+        end
+
     end
 
 end

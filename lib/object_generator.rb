@@ -28,7 +28,6 @@ class Object_generator
                     next
                 else
                     obj = @object_symbol_and_names[symbol]
-                    p obj
                     @success = false
                     begin
                         @objects << Object.const_get(obj).new(@window, j*@tilesize, i*@tilesize)

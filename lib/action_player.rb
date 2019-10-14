@@ -12,7 +12,7 @@ class Action_player
             @frames_delayed = 0
             @x_offset, @y_offset = @meta_data["offset"]
         rescue
-            puts "Error: Unable to initialize #{meta_data["name"]}"
+            # puts "Error: Unable to initialize #{meta_data["name"]}"
         end
     end
     

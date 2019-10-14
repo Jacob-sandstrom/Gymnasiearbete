@@ -15,7 +15,7 @@ class Animation_player
                 # p spritesheet
                 @animation_frames = Gosu::Image.load_tiles(spritesheet, img_width, img_height, tileable: true)
             rescue 
-                puts "Error: Unable to load animation #{@meta_data["name"]}"
+                # puts "Error: Unable to load animation #{@meta_data["name"]}"
             end
             
             @number_of_frames = @meta_data["frames"].length
@@ -23,7 +23,7 @@ class Animation_player
             @frames_delayed = 0
             @x_offset, @y_offset = @meta_data["offset"]
         rescue
-            puts "Error: Unable to initialize #{meta_data["name"]}"
+            # puts "Error: Unable to initialize #{meta_data["name"]}"
         end
     end
     

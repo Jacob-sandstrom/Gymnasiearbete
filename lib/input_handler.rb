@@ -1,8 +1,9 @@
-
+require 'wisper'
 
 
 
 class Input_handler
+    include Wisper::Publisher
 
     def self.handle_inputs(window, camera, map_writer, tile_selector, object_selector)
 
@@ -21,13 +22,26 @@ class Input_handler
                 camera.move_right
             end
 
-            #   edit map
-            if Gosu.button_down? Gosu::MS_LEFT
-                map_writer.add_tile_to_map
+            if window.currently_editing == "tiles"
+                #   edit tilemap
+                if Gosu.button_down? Gosu::MS_LEFT
+                    map_writer.add_tile_to_map
+                end
+                if Gosu.button_down? Gosu::MS_RIGHT
+                    map_writer.remove_tile_from_map
+                end
+            elsif window.currently_editing = "objects"                
+                if Gosu.button_down? Gosu::MS_LEFT
+                    map_writer.add_tile_to_map
+                    window.reload_objects
+                end
+                if Gosu.button_down? Gosu::MS_RIGHT
+                    map_writer.remove_tile_from_map
+                    # window.hello
+                    # broadcast(:hello)
+                end
             end
-            if Gosu.button_down? Gosu::MS_RIGHT
-                map_writer.remove_tile_from_map
-            end
+
 
         elsif tile_selector.open                            # Tile selector open controls
             #   select tile
@@ -46,7 +60,7 @@ class Input_handler
 
         #   save
         if Gosu.button_down? Gosu::KB_LEFT_CONTROL and Gosu.button_down? Gosu::KB_S
-            map_writer.save_map
+            window.save_map
         end
 
         

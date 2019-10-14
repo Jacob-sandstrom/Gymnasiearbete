@@ -20,7 +20,7 @@ class Action_handler
         rescue
             @current_action = Action_player.new(nil)
             @current_animation = Animation_player.new(nil)
-            print "action no exist"
+            # print "action no exist"
         end
 
         @attack_queued = false

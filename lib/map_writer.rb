@@ -15,10 +15,6 @@ class Map_writer
         @selected_tile = "_"
     end
 
-    def save_map
-        File.write("../maps/tilemaps/map.yaml", @map)
-    end
-
     def mouse_inside_map_bounds
         if @camera != nil
             @window.mouse_x + @camera.x > 0 && @window.mouse_x + @camera.x < @map_width && @window.mouse_y + @camera.y < @map_height && @window.mouse_y + @camera.y > 0
