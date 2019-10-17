@@ -46,7 +46,7 @@ class Animation_player
     
     def draw(x, y)
         begin               
-            @animation_frames[@current_frame].draw(x, y, 10)      
+            @animation_frames[@current_frame].draw(x + @x_offset, y + @y_offset, 10)      
         rescue
         end
     end

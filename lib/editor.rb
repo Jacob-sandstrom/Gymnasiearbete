@@ -30,11 +30,12 @@ class Editor < Gosu::Window
         @objects = @object_generator.generate(@object_map)
         
         @tile_selector = Tile_selector.new(self, @tilesize, "tiles", 2)
-        @object_selector = Tile_selector.new(self, @tilesize, "objects", 1)
+        @object_selector = Tile_selector.new(self, 64, "objects", 1)
         
         @currently_editing = "tiles"
         
         Input_handler.subscribe(self)
+        get_object_data
     end
     
     def needs_cursor?
@@ -90,6 +91,22 @@ class Editor < Gosu::Window
         end
     end
 
+    def get_object_data
+        data = Data_reader.read("objects")
+        #   make array into dictionary
+        @object_symbol_and_names = {}
+        data.each_with_index do |dat, i|
+            
+            begin
+                @object_symbol_and_names[dat[0]] = Object.const_get(dat[1]).new(@window, 0, 0)
+            rescue
+                @object_symbol_and_names[dat[0]] = Gameobject.new(@window, 0, 0, dat[1])
+            ensure
+
+            end
+        end
+    end
+
     def button_down(id)
         if id == Gosu::KB_ESCAPE
           close
@@ -97,31 +114,27 @@ class Editor < Gosu::Window
           super
         end
         if id == Gosu::MS_LEFT
-            if @currently_editing == "objects"  && (!@tile_selector.open && !@object_selector.open  )
+            if @currently_editing == "objects"  && (!@tile_selector.open && !@object_selector.open)
                 
                 @map_writer.add_tile_to_map
                 tile_x, tile_y = @map_writer.get_tile_index 
                 symbol = @object_map[tile_y][tile_x]
-                data = Data_reader.read("objects")
-
-                #   make array a dictionary
-                @object_symbol_and_names = {}
-                data.each_with_index do |dat, i|
-                    @object_symbol_and_names[dat[0]] = dat[1]
-                end
+                                    
+                
                 if symbol != "_"
                     obj = @object_symbol_and_names[symbol]
                     success = false
                     begin
-                        @objects << Object.const_get(obj).new(@window, tile_x*@tilesize, tile_y*@tilesize)
-                        success = true
-                    rescue
-                        @objects << Gameobject.new(@window, tile_x*@tilesize, tile_y*@tilesize, obj)
+                        object = obj.dup
+                        object.x = tile_x*@tilesize
+                        object.y = tile_y*@tilesize
+                        @objects << object
                         success = true
                     ensure
                         if !success
                             puts "Error: Unable to create object #{obj}"
                         end
+                        
                     end
                 end
 

@@ -3,6 +3,7 @@ require_relative 'action_handler'
 
 
 class Gameobject
+    attr_accessor :x, :y
 
     def initialize(window, x, y, data_name = "player")
         @window = window

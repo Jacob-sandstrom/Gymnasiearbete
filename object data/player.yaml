@@ -10,8 +10,8 @@
       - 230
       - 460
     offset:
-      - 0
-      - 0
+      - -100
+      - -300
     frames: 
       - name: frame_0
         image: nil
@@ -674,8 +674,8 @@
         - 230
         - 460
       offset:
-        - 0
-        - 0
+      - -100
+      - -300
       frames: 
         - name: frame_0
           image: nil
@@ -1240,8 +1240,8 @@
       - 230
       - 460
     offset:
-      - 0
-      - 0
+      - -100
+      - -300
     frames: 
       - name: frame_0
         image: nil
