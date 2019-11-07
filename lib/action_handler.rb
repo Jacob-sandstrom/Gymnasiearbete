@@ -8,6 +8,7 @@ class Action_handler
     def initialize(file = "../object data/player.yaml")
         actions = YAML.load(File.read(file))
 
+
         @action_players = {}
         @animation_players = {}
         actions.keys.each do |key|

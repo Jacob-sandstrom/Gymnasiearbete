@@ -58,4 +58,5 @@ class Db_tiles
 
 end
 
+
 Db_tiles.seed!
