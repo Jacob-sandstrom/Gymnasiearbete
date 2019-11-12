@@ -32,11 +32,15 @@ class Action
     end
 
     def forward
-        @current_frame += 1
+        unless @current_frame >= @number_of_frames
+            @current_frame += 1
+        end
     end
     
     def backward
-        @current_frame -= 1
+        unless @current_frame <= 0
+            @current_frame -= 1
+        end
     end
 
     def update

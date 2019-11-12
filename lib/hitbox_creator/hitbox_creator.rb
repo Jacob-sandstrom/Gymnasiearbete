@@ -37,8 +37,8 @@ class HitboxCreator < Gosu::Window
 
     def update
         
+        @a.update
         
-    
         inputs
     end
     
@@ -49,7 +49,7 @@ class HitboxCreator < Gosu::Window
         else
             draw_rect(@x_start, @y_start, @x_end - @x_start, @y_end - @y_start, Gosu::Color.argb(0x5f_00ff00))
         end
-
+        @a.draw(1000, 500)
     end
 
     def get_object_data

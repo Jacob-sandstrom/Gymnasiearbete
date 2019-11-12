@@ -35,23 +35,9 @@ class ActionViewer
         @current_action.reset
     end
 
-    def action_done
-        if @current_action.current_frame >= @current_action.number_of_frames 
-            if @current_action.meta_data["loop"] == true
-                reset
-            else
-                @current_action = @action_players["idle"]
-            end
-        end
-
-
-    end
-
     def update
-        switch_to_queued
         @current_action.update
         action_done
-        @allow_move = @current_action.meta_data["allow_movement"]
     end
     
     def draw(x, y)
