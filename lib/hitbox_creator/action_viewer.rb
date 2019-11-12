@@ -2,18 +2,18 @@ require 'yaml'
 require_relative 'action.rb'
 
 class ActionViewer
-    attr_accessor :current_action, :allow_move, :x_move, :y_move
+    attr_accessor :current_action, :allow_move, :x_move, :y_move, :action_players, :action_list, :current_action_index, :actions
 
     def initialize(file = "../../object data/player.yaml")
-        actions = YAML.load(File.read(file))
+        @actions = YAML.load(File.read(file))
         
 
         @action_list = []
 
         @action_players = {}
-        actions.keys.each do |key|
+        @actions.keys.each do |key|
             @action_list << key
-            @action_players[key] =  Action.new(actions[key])
+            @action_players[key] = Action.new(@actions[key])
         end
 
         @current_action_index = 0

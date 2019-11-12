@@ -19,9 +19,11 @@ class Hitbox_shower
         @action_handler.current_action.meta_data["frames"][@action_handler.current_action.current_frame]["hitboxes"].each do |hitbox|
             begin
                 x, y, width, height = hitbox["bounds"]
+                # x += @action_handler.current_action.meta_data["offset"][0]    #   include offset
+                # y += @action_handler.current_action.meta_data["offset"][1]
                 case hitbox["type"]
                 when "hittable"
-                    # window.draw_rect(x + pos_x, y + pos_y, width, height, Gosu::Color.argb(0xa5_c0ffc0), 100) 
+                    window.draw_rect(x + pos_x, y + pos_y, width, height, Gosu::Color.argb(0xa5_c0ffc0), 100) 
                 when "attack"
                     window.draw_rect(x + pos_x, y + pos_y, width, height, Gosu::Color.argb(0xa5_ffa0a0), 100) 
 
