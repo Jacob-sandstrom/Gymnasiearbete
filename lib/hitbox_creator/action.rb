@@ -32,7 +32,7 @@ class Action
     end
 
     def forward
-        unless @current_frame >= @number_of_frames
+        unless @current_frame >= @number_of_frames -1
             @current_frame += 1
         end
     end

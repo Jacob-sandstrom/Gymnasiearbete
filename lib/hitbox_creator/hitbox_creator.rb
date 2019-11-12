@@ -80,6 +80,17 @@ class HitboxCreator < Gosu::Window
             @y_start = mouse_y
         end
 
+        case id
+        when Gosu::KB_LEFT
+            @a.backward
+        when Gosu::KB_RIGHT
+            @a.forward
+        when Gosu::KB_E
+            @a.next_action
+        when Gosu::KB_Q
+            @a.prev_action
+        end
+
     end
 
     def button_up(id)
