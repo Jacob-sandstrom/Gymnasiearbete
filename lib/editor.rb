@@ -220,5 +220,6 @@ class Editor < Gosu::Window
 
 end
 
-
-Editor.new.show
+if __FILE__==$0
+    Editor.new.show
+end
