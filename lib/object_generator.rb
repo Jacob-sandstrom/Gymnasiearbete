@@ -1,3 +1,5 @@
+require_relative "data_reader"
+
 
 class Object_generator
 
@@ -19,6 +21,7 @@ class Object_generator
 
     def generate(map)
         @objects = []
+        @player = nil
 
         map.each_with_index do |row, i| 
             row.each_with_index do |symbol, j|
@@ -30,7 +33,11 @@ class Object_generator
                     obj = @object_symbol_and_names[symbol]
                     @success = false
                     begin
-                        @objects << Object.const_get(obj).new(@window, j*@tilesize, i*@tilesize)
+                        if obj == "player"
+                            @player = Object.const_get(obj.capitalize).new(@window, j*@tilesize, i*@tilesize)
+                        else
+                            @objects << Object.const_get(obj.capitalize).new(@window, j*@tilesize, i*@tilesize)
+                        end
                         @success = true
                     rescue
                         @objects << Gameobject.new(@window, j*@tilesize, i*@tilesize, obj)
@@ -44,7 +51,7 @@ class Object_generator
                 end
             end
         end
-        return @objects
+        return @player, @objects
 
     end
 
@@ -57,3 +64,6 @@ class Object_generator
     end
 
 end
+
+
+# o = Object_generator.new(nil, nil)

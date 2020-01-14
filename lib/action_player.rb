@@ -22,10 +22,10 @@ class Action_player
     end
 
     def x_move
-        @current_frame["x_movement"]
+        @meta_data["frames"][@current_frame]["x_movement"]
     end
     def y_move
-        @current_frame["y_movement"]
+        @meta_data["frames"][@current_frame]["y_movement"]
     end
 
     def update

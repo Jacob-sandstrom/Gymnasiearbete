@@ -27,7 +27,7 @@ class Editor < Gosu::Window
         @map_writer = Map_writer.new(self, @tilesize, @camera, @tile_map)
         @map_drawer = Map_drawer.new(self, @tilesize)
         @object_generator = Object_generator.new(self, @tilesize)
-        @objects = @object_generator.generate(@object_map)
+        @player, @objects = @object_generator.generate(@object_map)
         
         @tile_selector = Tile_selector.new(self, @tilesize, "tiles", 2)
         @object_selector = Tile_selector.new(self, 64, "objects", 1)
@@ -36,6 +36,8 @@ class Editor < Gosu::Window
         
         Input_handler.subscribe(self)
         get_object_data
+
+        p @player
     end
     
     def needs_cursor?
@@ -48,7 +50,7 @@ class Editor < Gosu::Window
     end
     
     def reload_objects
-        @objects = @object_generator.generate(@object_map)
+        @player, @objects = @object_generator.generate(@object_map)
     end
 
     def update_writer

@@ -6,32 +6,33 @@ class Player < Gameobject
 
     def initialize(window, x, y)
         super(window, x, y)
+        
 
     end
 
-    def walk(dir)
-        case dir
+    def walk
+        case @facing_dir
         when "up"
-            @animation_handler.switch_action(walk_up)
+            @action_handler.switch_action("walk_up")
         when "down"
-            @animation_handler.switch_action(walk_down)
+            @action_handler.switch_action("walk_down")
         when "left"
-            @animation_handler.switch_action(walk_left)
+            @action_handler.switch_action("walk_left")
         when "right"
-            @animation_handler.switch_action(walk_right)
+            @action_handler.switch_action("walk_right")
         end
     end
     
-    def attack(dir)
-        case dir
+    def attack
+        case @facing_dir
         when "up"
-            @animation_handler.switch_action(attack_up)
+            @action_handler.switch_action("attack_up_first")
         when "down"
-            @animation_handler.switch_action(attack_down)
+            @action_handler.switch_action("attack_down_first")
         when "left"
-            @animation_handler.switch_action(attack_left)
+            @action_handler.switch_action("attack_left_first")
         when "right"
-            @animation_handler.switch_action(attack_right)
+            @action_handler.switch_action("attack_right_first")
         end
 
     end

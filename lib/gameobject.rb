@@ -3,7 +3,7 @@ require_relative 'action_handler'
 
 
 class Gameobject
-    attr_accessor :x, :y
+    attr_accessor :x, :y, :facing_dir
 
     def initialize(window, x, y, data_name = "player")
         @window = window
@@ -12,6 +12,8 @@ class Gameobject
 
         @x_move = 0
         @y_move = 0
+
+        @facing_dir = "up"
 
         @action_handler = Action_handler.new("../object data/#{data_name}.yaml")
 

@@ -28,20 +28,15 @@ class Game < Gosu::Window
         @map_drawer = Map_drawer.new(self, @tilesize)
 
         @object_generator = Object_generator.new(self, @tilesize)
-        @objects = @object_generator.generate(@object_map)
-
-        @player = Player.new(self, 400, 400)
-    end
-
-
-    def handle_inputs
+        @player, @objects = @object_generator.generate(@object_map)
 
     end
 
-
+    
+    
     def update
         handle_inputs
-            
+        
         @player.update
         
         @objects.each {|obj| obj.update}
@@ -50,13 +45,37 @@ class Game < Gosu::Window
     end
     
     def draw
-
-        @player.draw(@camera)
-
+        
         @objects.each {|obj| obj.draw(@camera)}
-
+        
+        @player.draw(@camera)
     end
+    
 
+    def handle_inputs
+        
+        if Gosu.button_down? Gosu::KB_W
+            @player.facing_dir = "up"
+        end
+        if Gosu.button_down? Gosu::KB_A
+            @player.facing_dir = "left"
+        end
+        if Gosu.button_down? Gosu::KB_S
+            @player.facing_dir = "down"
+        end
+        if Gosu.button_down? Gosu::KB_D
+            @player.facing_dir = "right"
+        end
+        
+        if Gosu.button_down? Gosu::KB_W or Gosu.button_down? Gosu::KB_A or Gosu.button_down? Gosu::KB_S or Gosu.button_down? Gosu::KB_D
+            @player.walk()
+        end
+        if Gosu.button_down? Gosu::KB_SPACE
+            @player.attack()
+        end
+
+        
+    end
 
     def button_down(id)
         if id == Gosu::KB_ESCAPE
